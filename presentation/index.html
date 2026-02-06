@@ -1,67 +1,763 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
-  <meta charset="utf-8">
-  <title>Pitch - Bot Premium</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css">
-  <style>
-    body {
-      background-image: url('https://caldasdetailgarage.pt/wp-content/uploads/2021/01/detalhe-automovel.jpg');
-      background-size: cover;
-      background-position: center;
-      color: white;
-    }
-    h1, h2, p, ul, ol {
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MecanoIA x Caldas Detail Garage - Proposta Premium</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+        }
+
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            text-align: center;
+            padding: 40px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide h1 {
+            font-size: 4em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+            background: linear-gradient(45deg, #d4af37, #ffd700, #f4e04d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .slide h2 {
+            font-size: 3em;
+            margin-bottom: 25px;
+            color: #d4af37;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .slide h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #e8e8e8;
+            font-weight: 500;
+        }
+
+        .slide p {
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .slide .subtitle {
+            font-size: 1.5em;
+            color: #b8b8b8;
+            margin-bottom: 40px;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(20,20,20,0.9) 0%, rgba(30,30,30,0.8) 100%);
+            padding: 35px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(212,175,55,0.3);
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212,175,55,0.6);
+            box-shadow: 0 16px 48px rgba(212,175,55,0.2);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, rgba(20,20,20,0.9) 0%, rgba(40,40,40,0.9) 100%);
+            border: 2px solid rgba(212,175,55,0.5);
+            color: #d4af37;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.1) 100%);
+            border-color: #d4af37;
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(212,175,55,0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(20,20,20,0.9) 100%);
+            border: 1px solid rgba(212,175,55,0.3);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #d4af37;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+
+        .language-toggle {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, rgba(20,20,20,0.9) 0%, rgba(40,40,40,0.9) 100%);
+            border: 2px solid rgba(212,175,55,0.5);
+            color: #d4af37;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+
+        .language-toggle:hover {
+            background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.1) 100%);
+            border-color: #d4af37;
+        }
+
+        .highlight {
+            color: #d4af37;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(212,175,55,0.5);
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin: 40px 0;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            padding: 20px 40px;
+            border: 2px solid rgba(212,175,55,0.4);
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(20,20,20,0.8) 0%, rgba(30,30,30,0.6) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            color: #d4af37;
+        }
+
+        .plans-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .plan-card {
+            background: linear-gradient(135deg, rgba(15,15,15,0.95) 0%, rgba(25,25,25,0.9) 100%);
+            padding: 40px;
+            border-radius: 25px;
+            border: 2px solid rgba(212,175,55,0.4);
+            min-width: 350px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+        }
+
+        .plan-card.featured {
+            border-color: #d4af37;
+            box-shadow: 0 16px 48px rgba(212,175,55,0.3);
+            background: linear-gradient(135deg, rgba(20,20,20,0.95) 0%, rgba(30,30,30,0.9) 100%);
+        }
+
+        .plan-price {
+            font-size: 3em;
+            color: #d4af37;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(212,175,55,0.5);
+        }
+
+        ul {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        ul li {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+
+        .benefit-icon {
+            color: #d4af37;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #d4af37, #f4e04d, #d4af37);
+            color: #000000;
+            padding: 18px 45px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin: 20px 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 24px rgba(212,175,55,0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(212,175,55,0.6);
+            background: linear-gradient(45deg, #f4e04d, #d4af37, #f4e04d);
+        }
+
+        /* Hero Slide Styles */
+        .hero-slide {
+            padding: 0;
+            width: 100%;
+            max-width: none;
+        }
+
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(0,0,0,0.4) 0%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.6) 100%
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .hero-overlay h1 {
+            font-size: 5em;
+            margin-bottom: 30px;
+            text-shadow: 4px 4px 12px rgba(0,0,0,0.8);
+            background: linear-gradient(45deg, #d4af37, #ffd700, #f4e04d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-overlay .subtitle {
+            font-size: 1.8em;
+            color: #ffffff;
+            margin-bottom: 40px;
+            font-weight: 300;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.9) 0%, rgba(244,224,77,0.8) 100%);
+            padding: 15px 30px;
+            border-radius: 50px;
+            color: #000000;
+            font-weight: bold;
+            font-size: 1.1em;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 24px rgba(212,175,55,0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .crown {
+            font-size: 1.5em;
+        }
+
+        .luxury-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .crown-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(212,175,55,0.7));
+        }
+
+        @media (max-width: 768px) {
+            .slide h1 {
+                font-size: 2.5em;
+            }
+            
+            .slide h2 {
+                font-size: 2em;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .plans-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="reveal">
-    <div class="slides">
-      <section>
-        <h1>Pitch - Bot Premium</h1>
-        <p>Caldas Detail Garage</p>
-      </section>
-      <section>
-        <h2>Problemas Identificados</h2>
-        <ul>
-          <li>Clientes premium preferem atendimento personalizado.</li>
-          <li>Garagem não atende fora do horário comercial.</li>
-          <li>Necessidade de suporte em inglês para clientes estrangeiros.</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Solução Proposta</h2>
-        <ul>
-          <li>Atendimento 24/7 em português e inglês.</li>
-          <li>Registro de interações e relatórios automáticos.</li>
-          <li>Integração com CRM para gestão de clientes.</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Benefícios</h2>
-        <ul>
-          <li>Atendimento contínuo e de alta qualidade.</li>
-          <li>Organização e eficiência na gestão de clientes.</li>
-          <li>Economia de tempo e recursos.</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Próximos Passos</h2>
-        <ol>
-          <li>Configurar apresentação em slides.</li>
-          <li>Testar com os dois telemóveis.</li>
-          <li>Preparar o MacBook Pro para a apresentação.</li>
-          <li>Demonstrar o funcionamento do bot ao vivo.</li>
-        </ol>
-      </section>
+    <div class="presentation-container">
+        <!-- Language Toggle -->
+        <button class="language-toggle" onclick="toggleLanguage(); return false;">🌐 EN/PT</button>
+        
+        <!-- Slide Counter -->
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">10</span>
+        </div>
+
+        <!-- Slide 1: Título Principal -->
+        <div class="slide active" data-pt data-en>
+            <div class="luxury-header">
+                <div class="crown-icon">👑</div>
+                <h1 data-pt="MECANOIA × CALDAS DETAIL GARAGE" data-en="MECANOIA × CALDAS DETAIL GARAGE">MECANOIA × CALDAS DETAIL GARAGE</h1>
+            </div>
+            <div class="subtitle" data-pt="Inteligência Artificial para o Futuro do Negócio" data-en="Artificial Intelligence for the Future of Business">Inteligência Artificial para o Futuro do Negócio</div>
+            <div class="logo-container">
+                <div class="logo">🤖 SofIA AI</div>
+                <div class="logo">🏆 Caldas Detail</div>
+            </div>
+            <p data-pt="Automatização inteligente que trabalha enquanto você descansa" data-en="Intelligent automation that works while you rest">Automatização inteligente que trabalha enquanto você descansa</p>
+        </div>
+
+        <!-- Slide 2: Título Alternativo -->
+        <div class="slide" data-pt data-en>
+            <h2 data-pt="Desafios do Negócio Moderno" data-en="Modern Business Challenges">Desafios do Negócio Moderno</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 data-pt="Atendimento Limitado" data-en="Limited Service">Atendimento Limitado</h3>
+                    <p data-pt="Clientes exigentes querem respostas a qualquer hora do dia" data-en="Demanding clients want answers at any time of day">Clientes exigentes querem respostas a qualquer hora do dia</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h3 data-pt="Tempo vs Crescimento" data-en="Time vs Growth">Tempo vs Crescimento</h3>
+                    <p data-pt="Crescer o negócio enquanto mantém qualidade nos serviços" data-en="Growing business while maintaining service quality">Crescer o negócio enquanto mantém qualidade nos serviços</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 data-pt="Escalabilidade" data-en="Scalability">Escalabilidade</h3>
+                    <p data-pt="Como expandir sem comprometer a excelência atual" data-en="How to expand without compromising current excellence">Como expandir sem comprometer a excelência atual</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Conhecendo a Caldas Detail Garage -->
+        <div class="slide" data-pt data-en>
+            <h2 data-pt="Caldas Detail Garage: Excelência Reconhecida" data-en="Caldas Detail Garage: Recognized Excellence">Caldas Detail Garage: Excelência Reconhecida</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3 data-pt="Crescimento Sustentável" data-en="Sustainable Growth">Crescimento Sustentável</h3>
+                    <p data-pt="Evolução de pequena empresa para referência no setor" data-en="Evolution from small company to industry reference">Evolução de pequena empresa para referência no setor</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3 data-pt="Serviços Premium" data-en="Premium Services">Serviços Premium</h3>
+                    <ul>
+                        <li data-pt="Detalhe Automóvel Profissional" data-en="Professional Car Detailing">Detalhe Automóvel Profissional</li>
+                        <li data-pt="Clientela exigente e fidelizada" data-en="Demanding and loyal clientele">Clientela exigente e fidelizada</li>
+                        <li data-pt="PPF e Car Wrapping premium" data-en="Premium PPF and Car Wrapping">PPF e Car Wrapping premium</li>
+                        <li data-pt="Nova linha de produtos próprios" data-en="New proprietary product line">Nova linha de produtos próprios</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Apresentando SofIA -->
+        <div class="slide" data-pt data-en>
+            <h2 data-pt="Conheça a SofIA" data-en="Meet SofIA">Conheça a SofIA</h2>
+            <div class="subtitle" data-pt="A Assistente de IA para o Setor Automóvel" data-en="The AI Assistant for the Automotive Sector">A Assistente de IA para o Setor Automóvel</div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 data-pt="Secretária Virtual 24/7" data-en="24/7 Virtual Secretary">Secretária Virtual 24/7</h3>
+                    <p data-pt="Atende todas as chamadas, dia e noite, mesmo quando está ocupado com serviços" data-en="Answers all calls, day and night, even when you're busy with services">Atende todas as chamadas, dia e noite, mesmo quando está ocupado com serviços</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 data-pt="Gestora Inteligente" data-en="Intelligent Manager">Gestora Inteligente</h3>
+                    <p data-pt="Cria fichas automáticas, organiza histórico e gere fornecedores" data-en="Creates automatic records, organizes history and manages suppliers">Cria fichas automáticas, organiza histórico e gere fornecedores</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Como SofIA Transforma o Seu Negócio -->
+        <div class="slide" data-pt data-en>
+            <h2 data-pt="IA que Gera Lucro Enquanto Dorme" data-en="AI that Generates Profit While You Sleep">IA que Gera Lucro Enquanto Dorme</h2>
+            <div class="benefit-item">
+                <span class="benefit-icon">✓</span>
+                <span data-pt="Atendimento 24/7 automático - Zero interrupções" data-en="24/7 automatic service - Zero interruptions">Atendimento 24/7 automático - Zero interrupções</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">✓</span>
+                <span data-pt="Integração inteligente com sistemas existentes" data-en="Smart integration with existing systems">Integração inteligente com sistemas existentes</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">✓</span>
+                <span data-pt="Automação completa de vendas da nova marca" data-en="Complete sales automation for new brand">Automação completa de vendas da nova marca</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">✓</span>
+                <span data-pt="IA aprende e otimiza conversões automaticamente" data-en="AI learns and optimizes conversions automatically">IA aprende e otimiza conversões automaticamente</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">✓</span>
+                <span data-pt="Receita passiva: trabalha mesmo quando está ausente" data-en="Passive income: works even when you're away">Receita passiva: trabalha mesmo quando está ausente</span>
+            </div>
+        </div>
+
+        <!-- Slide 6: Integração Técnica -->
+        <div class="slide" data-pt data-en>
+            <h2 data-pt="Integração Técnica Especializada" data-en="Specialized Technical Integration">Integração Técnica Especializada</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3 data-pt="Análise CRM Existente" data-en="Existing CRM Analysis">Análise CRM Existente</h3>
+                    <ul>
+                        <li data-pt="Auditoria de compatibilidade cloud" data-en="Cloud compatibility audit">Auditoria de compatibilidade cloud</li>
+                        <li data-pt="Verificação de APIs disponíveis" data-en="Available APIs verification">Verificação de APIs disponíveis</li>
+                        <li data-pt="Plano de integração personalizado" data-en="Custom integration plan">Plano de integração personalizado</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏷️</div>
+                    <h3 data-pt="Gestão Nova Marca" data-en="New Brand Management">Gestão Nova Marca</h3>
+                    <ul>
+                        <li data-pt="Integração com loja online" data-en="Online store integration">Integração com loja online</li>
+                        <li data-pt="Gestão automática de stocks" data-en="Automatic stock management">Gestão automática de stocks</li>
+                        <li data-pt="Coordenação com redes sociais" data-en="Social media coordination">Coordenação com redes sociais</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="font-size: 1.3em; margin-top: 30px;" data-pt="Implementação técnica incluída sem custos adicionais" data-en="Technical implementation included at no additional cost"><span class="highlight">Implementação técnica incluída sem custos adicionais</span></p>
+        </div>
+
+        <!-- Slide 7: Plano Premium Personalizado -->
+        <div class="slide" data-pt data-en>
+            <h2 data-pt="Plano Premium Empresarial" data-en="Premium Business Plan">Plano Premium Empresarial</h2>
+            <div class="subtitle" data-pt="Para Empresas com Faturação Milionária" data-en="For Million-Euro Revenue Companies">Para Empresas com Faturação Milionária</div>
+            <div class="plan-card featured">
+                <h3 data-pt="MecanoIA Premium" data-en="MecanoIA Premium">MecanoIA Premium</h3>
+                <div class="plan-price">PLANO PREMIUM</div>
+                <ul>
+                    <li data-pt="✓ Atendimento 24/7 de nível empresarial para clientes VIP" data-en="✓ Enterprise-level 24/7 service for VIP clients">✓ Atendimento 24/7 de nível empresarial para clientes VIP</li>
+                    <li data-pt="✓ Integração certificada com CRM existente" data-en="✓ Certified integration with existing CRM">✓ Integração certificada com CRM existente</li>
+                    <li data-pt="✓ Gestão de múltiplas marcas (serviços + produtos)" data-en="✓ Multi-brand management (services + products)">✓ Gestão de múltiplas marcas (serviços + produtos)</li>
+                    <li data-pt="✓ API personalizada para loja online" data-en="✓ Custom API for online store">✓ API personalizada para loja online</li>
+                    <li data-pt="✓ Branding exclusivo 'Caldas Detail Garage'" data-en="✓ Exclusive branding 'Caldas Detail Garage'">✓ Branding exclusivo "Caldas Detail Garage"</li>
+                    <li data-pt="✓ Account Manager dedicado" data-en="✓ Dedicated Account Manager">✓ Account Manager dedicado</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 7: ROI e Benefícios -->
+        <div class="slide" data-pt data-en>
+            <h2 data-pt="Retorno do Investimento Inteligente" data-en="Smart Investment Return">Retorno do Investimento Inteligente</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3 data-pt="Proteção de Receita" data-en="Revenue Protection">Proteção de Receita</h3>
+                    <p data-pt="IA que nunca para, nunca descansa, sempre converte" data-en="AI that never stops, never rests, always converts">IA que nunca para, nunca descansa, sempre converte</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3 data-pt="Excelência no Atendimento" data-en="Service Excellence">Excelência no Atendimento</h3>
+                    <p data-pt="Padrão de atendimento 24/7 adequado à clientela de luxo" data-en="24/7 service standard suitable for luxury clientele">Padrão de atendimento 24/7 adequado à clientela de luxo</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 data-pt="Expansão da Marca" data-en="Brand Expansion">Expansão da Marca</h3>
+                    <p data-pt="Suporte para nova linha de produtos e vendas online" data-en="Support for new product line and online sales">Suporte para nova linha de produtos e vendas online</p>
+                </div>
+            </div>
+            <p style="font-size: 1.4em; margin-top: 30px;" data-pt="Tecnologia que se paga a si própria" data-en="Technology that pays for itself"><span class="highlight">Tecnologia que se paga a si própria</span></p>
+        </div>
+
+        <!-- Slide 9: Nova Marca -->
+        <div class="slide" data-pt data-en>
+            <div class="luxury-header">
+                <div class="crown-icon">🏄‍♂️</div>
+                <h2 data-pt="Implementação da Nova Marca" data-en="New Brand Implementation">Implementação da Nova Marca</h2>
+            </div>
+            <div class="subtitle" data-pt="IA Especializada em Lançamento de Produtos Street/Surf" data-en="AI Specialized in Street/Surf Product Launch">IA Especializada em Lançamento de Produtos Street/Surf</div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 data-pt="Gestão Automática de Marca" data-en="Automatic Brand Management">Gestão Automática de Marca</h3>
+                    <p data-pt="SofIA integra-se perfeitamente com a nova linha streetwear, gerindo vendas, stock e atendimento" data-en="SofIA integrates perfectly with the new streetwear line, managing sales, stock and service">SofIA integra-se perfeitamente com a nova linha streetwear, gerindo vendas, stock e atendimento</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛒</div>
+                    <h3 data-pt="E-commerce Inteligente" data-en="Intelligent E-commerce">E-commerce Inteligente</h3>
+                    <p data-pt="Vendas online automáticas com recomendações personalizadas para lifestyle urbano" data-en="Automatic online sales with personalized recommendations for urban lifestyle">Vendas online automáticas com recomendações personalizadas para lifestyle urbano</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 data-pt="Analytics Avançado" data-en="Advanced Analytics">Analytics Avançado</h3>
+                    <p data-pt="Dados em tempo real sobre performance da marca street/surf e otimização automática" data-en="Real-time data on street/surf brand performance and automatic optimization">Dados em tempo real sobre performance da marca street/surf e otimização automática</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Call to Action -->
+        <div class="slide" data-pt data-en>
+            <h2 data-pt="Pronto para o Futuro da Automação?" data-en="Ready for the Future of Automation?">Pronto para o Futuro da Automação?</h2>
+            <div class="subtitle" data-pt="IA que trabalha 24/7 para gerar receita passiva" data-en="AI that works 24/7 to generate passive income">IA que trabalha 24/7 para gerar receita passiva</div>
+            <div style="margin: 40px 0;">
+                <button class="cta-button" data-pt="ANÁLISE GRATUITA" data-en="FREE ANALYSIS">ANÁLISE GRATUITA</button>
+                <button class="cta-button" data-pt="DEMONSTRAÇÃO IA" data-en="AI DEMONSTRATION">DEMONSTRAÇÃO IA</button>
+            </div>
+            <div class="features-grid" style="margin-top: 40px;">
+                <div class="feature-card">
+                    <h3 data-pt="🎯 Zero Compromisso" data-en="🎯 Zero Commitment">🎯 Zero Compromisso</h3>
+                    <p data-pt="Análise completa dos seus sistemas sem custos" data-en="Complete analysis of your systems at no cost">Análise completa dos seus sistemas sem custos</p>
+                </div>
+                <div class="feature-card">
+                    <h3 data-pt="⚡ Implementação Gradual" data-en="⚡ Gradual Implementation">⚡ Implementação Gradual</h3>
+                    <p data-pt="Implementação por fases, tempo orçamentado conforme especificações" data-en="Phase-by-phase implementation, time budgeted according to specifications">Implementação por fases, tempo orçamentado conforme especificações</p>
+                </div>
+                <div class="feature-card">
+                    <h3 data-pt="🎓 Suporte Completo" data-en="🎓 Complete Support">🎓 Suporte Completo</h3>
+                    <p data-pt="Acompanhamento e otimização contínua" data-en="Continuous monitoring and optimization">Acompanhamento e otimização contínua</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" id="prev-btn" onclick="previousSlide()">← <span data-pt="Anterior" data-en="Previous">Anterior</span></button>
+            <button class="nav-btn" id="next-btn" onclick="nextSlide()"><span data-pt="Próximo" data-en="Next">Próximo</span> →</button>
+        </div>
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
-  <script>
-    Reveal.initialize();
-  </script>
+
+    <script>
+        let currentSlide = 0;
+        let currentLanguage = 'pt';
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        // Update slide counter
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === slides.length - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'pt' ? 'en' : 'pt';
+            
+            // Update all elements with data attributes
+            document.querySelectorAll('[data-pt][data-en]').forEach(element => {
+                if (element.hasAttribute('data-' + currentLanguage)) {
+                    const newText = element.getAttribute('data-' + currentLanguage);
+                    if (newText) {
+                        element.textContent = newText;
+                    }
+                }
+            });
+            
+            // Update language toggle button text
+            const toggleBtn = document.querySelector('.language-toggle');
+            if (toggleBtn) {
+                toggleBtn.textContent = currentLanguage === 'pt' ? '🌐 EN' : '🌐 PT';
+            }
+            
+            // Ensure current slide remains active after language change
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousSlide();
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                showSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                showSlide(slides.length - 1);
+            }
+        });
+
+        // Initialize presentation
+        function initializePresentation() {
+            // Set initial language
+            document.querySelector('.language-toggle').textContent = '🌐 EN';
+            
+            // Show first slide
+            showSlide(0);
+            
+            // Ensure navigation buttons are properly initialized
+            document.getElementById('prev-btn').disabled = true;
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePresentation();
+        });
+
+        // Fallback initialization
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializePresentation);
+        } else {
+            initializePresentation();
+        }
+
+        // Auto-advance functionality (optional)
+        let autoAdvance = false;
+        if (autoAdvance) {
+            setInterval(() => {
+                if (currentSlide < slides.length - 1) {
+                    nextSlide();
+                } else {
+                    showSlide(0); // Restart from beginning
+                }
+            }, 10000); // 10 seconds per slide
+        }
+    </script>
 </body>
 </html>
