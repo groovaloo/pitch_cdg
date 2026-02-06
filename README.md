@@ -1,7 +1,7 @@
-# Instructions for Implementing the Sofia Project - Caldas de Tel Garage
+# Instructions for Implementing the Sofia Project - Caldas Detail Garage
 
 ## Project Objective
-Create an integrated solution for Caldas de Tel Garage that includes:
+Create an integrated solution for Caldas Detail Garage that includes:
 1. A new page for the company's new brand.
 2. Integration of the new page with the existing e-commerce.
 3. Automation of sales and customer service through the Sofia bot.
@@ -65,3 +65,10 @@ Create an integrated solution for Caldas de Tel Garage that includes:
 ---
 
 This document is designed to be read by bots and humans, ensuring that the instructions are clear and deterministic for implementation in the code.
+
+## Deployment
+
+- Production URL: https://pitch-cdg-presentation.netlify.app
+- Deployed: 2026-02-06
+- Deployed from directory: `presentation/`
+- Verification: company name on live site reads "Caldas Detail Garage"
